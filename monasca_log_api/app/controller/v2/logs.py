@@ -23,6 +23,10 @@ from monasca_log_api.app.controller.api import logs_api
 from monasca_log_api.app.controller.v2.aid import service
 from monasca_log_api import conf
 
+# For output log
+import logging
+log = logging.getLogger(__name__)
+
 CONF = conf.CONF
 _DEPRECATED_INFO = ('/v2.0/log/single has been deprecated. '
                     'Please use /v3.0/logs')
@@ -54,6 +58,8 @@ class Logs(logs_api.LogsApi):
                          else req.cross_project_id)
 
             log = self.get_log(request=req)
+            # Output log
+            log.error('##### log = {0} #####'.format(log))
             envelope = self.get_envelope(
                 log=log,
                 tenant_id=tenant_id
